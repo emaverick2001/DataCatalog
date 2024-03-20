@@ -1,0 +1,53 @@
+Prefix,Number of Items,Subscales,Lyme,EEG,ALZ,MDD/AUD
+BDI,21,total,X,NA,X,NA
+BFI,44,"extrav.mean, agree.mean, consc.mean, neurotic.mean, open.mean, extrav.sum, agree.sum, consc.sum, neurotic.sum, open.sum",X,NA,X,X
+CEQ,26,"fear, grief, physDistress, insanity, isolation, death, paranoia, total, fear.pctmax, grief.pctmax, physDistress.pctmax, insanity.pctmax, isolation.pctmax, death.pctmax, paranoia.pctmax, pctmax",X,X,X,X
+FSS,10,total,X,NA,NA,NA
+GSQ,32,"viralLike, painFatigue, neurological, neuroPsychiatric, total",X,NA,NA,NA
+IDQ,9,,X,NA,NA,NA
+LEC,17,,X,NA,NA,NA
+Memory,1,,X,NA,X,NA
+MEQ,30,"total, mystical, positive, transendence, ineffibility, total.pctmax, mystical.pctmax, positive.pctmax, transendence.pctmax, ineffibility.pctmax, complete",X,X,X,X
+MPQ,17,"sensory, affective, vas, ppi, chosen",X,NA,NA,NA
+MQOL,17,"physical, psychological, outlookLife, meaningfulExistence, total",X,NA,NA,NA
+PCS,13,"rumination, magnification, helplessness, total",X,NA,NA,NA
+PSQI,9,"sleepQuality, sleepLatency, sleepDuration, sleepEfficiency, sleepDisturbance, sleepMedication, daytimeDysfunction, global",X,NA,NA,X
+PsychInsight,23,"amp, gap, total",X,NA,NA,X
+SF36,36,"physicalFunctioning, physicalLimitations, bodilyPain, socialFunctioning, mentalHealth, emotionalLimitations, vitality, generalHealthPerceptions",X,NA,NA,NA
+VEQ,16,,X,NA,X,X
+WAI,12,"goal, task, bond",X,NA,NA,X
+5DASC,43,,NA,X,NA,X
+BAI,20,"punishmentSens, rewardResponse, drive, funSeek",NA,X,NA,NA
+BIS11,30,"attSecond, attFirst, ciFirst, motSecond, motFirst, perFirst, npSecond, scFirst, ccFirst, total",NA,X,NA,NA
+DASS,21,"depression, anxiety, stress",NA,X,NA,NA
+DPES,38,"total, joy, content, pride, love, compassion, amuse, awe",NA,X,NA,X
+EHQ,12,total,NA,X,NA,NA
+PANAS,60,"negAffect, posAffect, fear, hostility, guilt, sadness, jovial, selfAssurance, attentiveness, shyness, fatigue, serenity, surprise",NA,X,NA,NA
+POMS,65,"tension, depression, anger, fatigue, confusion, vigor, tmd",NA,X,NA,X
+PsychInsight,28,"amp, gap, total",NA,X,X,NA
+STAI,40,"state, trait, total",NA,X,X,X
+AAQ,10,total,NA,NA,X,NA
+GDS,15,total,NA,NA,X,NA
+HeadacheForm,16,,NA,NA,X,NA
+MPL,10,"total, meq.complete",NA,NA,X,NA
+NextDayVol,9,,NA,NA,X,NA
+QOLAlz,13,total,NA,NA,X,NA
+WAI,12,,NA,NA,X,NA
+AAQ,7,total,NA,NA,NA,X
+DDQ,27,,NA,NA,NA,X
+DelayedDiscountingQuestionnaire.DDQ.,27,,NA,NA,NA,X
+Expectancy,1,,NA,NA,NA,X
+GRIDHAMD,17,"total, delta",NA,NA,NA,X
+MotivationChangeRuler,3,,NA,NA,NA,X
+PANAS,60,"negaffect, posaffect, fear, hostility, guilt, sadness, jovial, selfassurance, attentiveness, shyness, fatigue, serenity, surprise",NA,NA,NA,X
+PEQ_AttitudeLife,26,,NA,NA,NA,X
+PEQ_AttitudeSelf,18,,NA,NA,NA,X
+PEQ_BehaviorChange,2,,NA,NA,NA,X
+PEQ_Misc,5,,NA,NA,NA,X
+PEQ_Relationships,20,,NA,NA,NA,X
+PHQ,10,"total, phq9_1day_post_complete",NA,NA,NA,X
+QIDS,16,total,NA,NA,NA,X
+QLESQ,16,"total, pctmax",NA,NA,NA,X
+ReadinessToChange,12,,NA,NA,NA,X
+SMDDS,16,"negEmotions, anxiety, lowEnergy, cognition, sleepDisturbance, selfHarm, lowMotivation, senseOfSelf, eatingBehavior, total",NA,NA,NA,X
+TAS,34,"total, wai.task",NA,NA,NA,X
