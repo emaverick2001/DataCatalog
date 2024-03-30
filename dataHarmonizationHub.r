@@ -6,6 +6,7 @@ library(DT)
 library(shinyWidgets)
 library(shinyjs)
 library(shinydashboard)
+library(polished)
 
 # Define the UI
 ui <- dashboardPage(
@@ -40,9 +41,13 @@ ui <- dashboardPage(
     ),
     # Add the DataTable for the selected data
     DT::dataTableOutput(outputId = "table"),
+    # add empty space between the table and the cart
+    tags$br(),
+    tags$br(),
+    tags$br(),
     # Add the DataTable for the cart
     fluidRow(
-      column(6, DT::dataTableOutput(outputId = "selected_table"))
+      column(3, DT::dataTableOutput(outputId = "selected_table"))
     ),
     # Add the checkout button to submit the selected data for processing
     actionButton(inputId = "checkout", label = "Checkout")
@@ -157,6 +162,13 @@ server <- function(input, output, session) {
     # print(selected_rows)
   })
 
+  # # Observer to clear the cart when all studies are unselected #TODO bug with resetting the cart
+  # observe({
+  #   if (is.null(input$studies) || length(input$studies) == 0) {
+  #     selected_rows(data.frame())
+  #   }
+  # })
+
   # Render the cart table
   output$selected_table <- DT::renderDataTable(
     {
@@ -173,12 +185,42 @@ server <- function(input, output, session) {
     },
     caption = "Cart",
     options = list(
+      # Set the initial number of rows to 10
+      pageLength = 10,
+      # Increase the height of the scrollable area
+      scrollY = "400px",
+      # Adjust the table height to fit the number of rows
+      scrollCollapse = TRUE,
       paging = FALSE
     ),
     # Use client-side processing
-    server = FALSE
+    server = FALSE,
+    rownames = FALSE
   )
+
+
+  # Observe the checkout button , This will eventually be the function to send the data to the database
+  observeEvent(input$checkout, {
+    # Check if the cart is empty
+    if (nrow(selected_rows()) == 0) {
+      # Show the modal dialog with the message "Cart is Empty"
+      showModal(modalDialog(
+        title = "Checkout",
+        "Cart is Empty",
+        easyClose = TRUE,
+        footer = NULL
+      ))
+    } else {
+      # Show the modal dialog with the message "Your cart has been sent for approval."
+      showModal(modalDialog(
+        title = "Checkout",
+        "Your cart has been sent for approval.",
+        easyClose = TRUE,
+        footer = NULL
+      ))
+    }
+  })
 }
 
-# Run the app
+# # Run the app
 shinyApp(ui, server)
