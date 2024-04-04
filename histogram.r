@@ -7,7 +7,14 @@
 # Modified from https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/
 
 library(shiny)
+library(polished)
+library(config)
 data(airquality)
+
+global_sessions_config(
+  app_name = "DataCatalog",
+  api_key = "5KW9mNDrocLGZUVsyk9QNma5NwUxwv97gE"
+)
 
 # Define UI for app that draws a histogram ----
 ui <- fluidPage(
@@ -58,5 +65,8 @@ server <- function(input, output) {
   
 }
 
-# Create Shiny app ----
-shinyApp(ui = ui, server = server)
+
+secure_ui(ui)
+secure_server(server)
+
+

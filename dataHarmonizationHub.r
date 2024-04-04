@@ -28,7 +28,7 @@ ui <- dashboardPage(
       }
     "))),
     # Add a logo
-    # tags$img(inputId = "logo", src = "www/logo.png", height = 100, width = 200),
+    tags$img(inputId = "logo", src = "images/logo.png", alt = "CPCR logo", style = "width: 125px; margin-top: 30px; margin-bottom: 30px;"),
     # Add a custom div for the dropdown button for selecting studies
     div(
       dropdownButton(
@@ -183,7 +183,7 @@ server <- function(input, output, session) {
         data.frame(Cart = "Cart is empty")
       }
     },
-    caption = "Cart",
+    caption = htmltools::HTML("<i class='fa fa-shopping-cart'></i> Cart"),
     options = list(
       # Set the initial number of rows to 10
       pageLength = 10,
@@ -197,7 +197,6 @@ server <- function(input, output, session) {
     server = FALSE,
     rownames = FALSE
   )
-
 
   # Observe the checkout button , This will eventually be the function to send the data to the database
   observeEvent(input$checkout, {
@@ -222,5 +221,5 @@ server <- function(input, output, session) {
   })
 }
 
-# # Run the app
+# Run the app
 shinyApp(ui, server)
