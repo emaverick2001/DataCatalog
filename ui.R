@@ -31,7 +31,7 @@ ui <- dashboardPage(
                 # Add a logo
                 # Add an id to the container div
                 div(id = "logo-container",
-                    tags$img(inputId = "logo", src = "images/logo.png", alt = "CPCR logo", style = "width: 125px; margin-top: 30px; margin-bottom: 30px;")
+                    tags$img(inputId = "logo", src = "images/logo.png", alt = "CPCR logo", style = "width: 400px; margin-top: 30px; margin-bottom: 30px;")
                 ),
                 # Add a custom div for the dropdown button for selecting studies
                 div(
@@ -54,7 +54,9 @@ ui <- dashboardPage(
                         column(3, DT::dataTableOutput(outputId = "selected_table"))
                 ),
                 # Add the checkout button to submit the selected data for processing
-                actionButton(inputId = "checkout", label = "Checkout")
+                actionButton(inputId = "checkout", label = "Checkout"),
+                # Add the clear cart button to remove any existing entries
+                actionButton(inputId="clear_cart", label="Clear Cart")
         )
 )
 
@@ -67,7 +69,7 @@ my_custom_sign_in_page <- sign_in_ui_default(
                 tags$img(
                         src = "images/logo.png",
                         alt = "CPCR logo",
-                        style = "width: 300px; border-radius: 4px;"
+                        style = "width: 300px;"
                 )
         ),
         icon_href = "images/folder.png",

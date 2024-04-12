@@ -56,6 +56,7 @@ server <- function(input, output, session) {
                                           list(visible = FALSE, targets = c(urls_index, unchecked_studies_indices))
                                   ),
                                   # Add the checkboxes to the first column
+                                  # prefix index is the index of the data point within the column I am adding checkboxes to
                                   rowCallback = JS(
                                           paste0("function(row, data) {
                                             var $checkbox = $('<input type=\"checkbox\" class=\"measure-checkbox\" value=\"' + data[", prefix_index, "] + '\"> ' + data[", prefix_index, "] + '</a>');
@@ -79,54 +80,81 @@ server <- function(input, output, session) {
                           
                           # Add the JavaScript callback to update shiny input when the checkbox is changed
                           callback = JS("
-                                table.on('change', '.measure-checkbox', function() {
-                                  console.log('Checkbox changed');
-                                  Shiny.setInputValue('measure_checkbox', $('.measure-checkbox:checked').map(function() { return $(this).val(); }).get());
-                                });
-                              "
-                          ),
+                                  // Function to update the measure_checkbox input
+                                    function updateMeasureCheckbox() {
+                                        console.log('Updating measure_checkbox');
+                                        var checkboxValues = $('.measure-checkbox:checked').map(function() { return $(this).val(); }).get();
+                                        console.log('Checkbox values:', checkboxValues);
+                                        Shiny.setInputValue('measure_checkbox', checkboxValues);
+                                    }
+                                
+                                  // Initial update of measure_checkbox
+                                  updateMeasureCheckbox();
+                                
+                                  // Event listener for changes in checkboxes
+                                  table.on('change', '.measure-checkbox', function() {
+                                    console.log('Checkbox changed');
+                                    updateMeasureCheckbox();
+                                  });
+                                
+                                  // Event listener for handling case when all checkboxes are unchecked
+                                  $(document).on('click', '.measure-checkbox', function() {
+                                    if ($('.measure-checkbox:checked').length === 0) {
+                                      console.log('All checkboxes unchecked');
+                                      updateMeasureCheckbox(); // Call the function to update measure_checkbox
+                                    }
+                                  });
+                                "),
                           rownames = FALSE
                 )
         })
-        
+        #TODO BUG here, listener not listening when state is baseline (all checkboxes unchecked) Bug is in js code
         observeEvent(input$measure_checkbox, {
+                print("Observer for input$measure_checkbox triggered!")
                 print("Checkbox value:")
-                print(input$measure_checkbox)
+                measure_checkbox_vector <- unlist(strsplit(input$measure_checkbox, ","))
+                # Get the length of the vector
+                measure_checkbox_length <- length(measure_checkbox_vector)
+                print(paste("Number of checkboxes checked:", measure_checkbox_length))
+                # print(length(input$measure_checkbox))
+                # print("Checkbox is null?:",is.null(input$measure_checkbox))
                 
-                # Check if input$measure_checkbox is NULL or empty
-                if (is.null(input$measure_checkbox) || length(input$measure_checkbox) == 0) {
-                        print("No checkboxes checked")
-                        selected_rows_temp <- data.frame(Cart = "Cart is empty")
+
+                # Remove the c() function and quotes from the string
+                measure_checkbox_string <- gsub("c\\(|\\)|\"", "", input$measure_checkbox)
+                
+                # Split the string into a vector of strings
+                measure_checkbox_values <- unlist(strsplit(measure_checkbox_string, ","))
+                
+                # Remove leading and trailing white spaces from each value
+                measure_checkbox_values <- trimws(measure_checkbox_values)
+                
+
+                # Convert the tibble to a vector
+                prefix_vector <- unlist(filtered_by_study()[, "Prefix"])
+                
+                # Get the indices of the rows where the Prefix is in measure_checkbox_values
+                selected_rows_indices <- which(prefix_vector %in% measure_checkbox_values)
+                
+                print("selected indices:")
+                print(selected_rows_indices)
+                
+                # If there are any selected rows, subset the rows using the indices
+                # Otherwise, create an empty data frame
+                if (length(selected_rows_indices) > 0) {
+                        selected_rows_temp <- filtered_by_study()[selected_rows_indices, ]
                 } else {
-                        # Remove the c() function and quotes from the string
-                        measure_checkbox_string <- gsub("c\\(|\\)|\"", "", input$measure_checkbox)
-                        
-                        # Split the string into a vector of strings
-                        measure_checkbox_values <- unlist(strsplit(measure_checkbox_string, ","))
-                        
-                        # Remove leading and trailing white spaces from each value
-                        measure_checkbox_values <- trimws(measure_checkbox_values)
-                        
-                        # Convert the tibble to a vector
-                        prefix_vector <- unlist(filtered_by_study()[, "Prefix"])
-                        
-                        # Get the indices of the rows where the Prefix is in measure_checkbox_values
-                        selected_rows_indices <- which(prefix_vector %in% measure_checkbox_values)
-                        
-                        print(selected_rows_indices)
-                        
-                        # If there are any selected rows, subset the rows using the indices
-                        # Otherwise, create an empty data frame
-                        if (length(selected_rows_indices) > 0) {
-                                selected_rows_temp <- filtered_by_study()[selected_rows_indices, ]
-                        } else {
-                                selected_rows_temp <- data.frame(Cart = "Cart is empty")
-                        }
+                        selected_rows_temp <- data.frame(Cart = "Cart is empty")
                 }
                 
+                print("selected rows temp")
+                print(selected_rows_temp)
+                print("selected rows before")
+                print(selected_rows)
                 # Update the reactive value
                 selected_rows(selected_rows_temp)
-                
+                print("selected rows after")
+                print(selected_rows)
                 # print(selected_rows)
         })
         
@@ -183,6 +211,27 @@ server <- function(input, output, session) {
                         ))
                 }
         })
+        
+        observeEvent(input$clear_cart, {
+                # Clear the selected rows in the cart by setting it to an empty data frame
+                selected_rows(data.frame())
+                
+                # Uncheck all the checkboxes in the main data table containing the study data
+                runjs("
+        // Select all checkboxes with the class 'measure-checkbox' and uncheck them
+        $('input.measure-checkbox[type=\"checkbox\"]').prop('checked', false);
+    ")
+                
+                # Show modal dialog with the message "Your cart has been cleared."
+                showModal(modalDialog(
+                        title = "Clear",
+                        "Your cart has been cleared.",
+                        easyClose = TRUE,
+                        footer = NULL
+                ))
+        })
+        
+        
         
 }
 
