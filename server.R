@@ -12,6 +12,8 @@ server <- function(input, output, session) {
         
         # Load the data, # this would ideally be the database connection/ call
         data <- read_excel("dataharmSAM.xlsx")
+        lyme_data <- read_excel("dataharmLyme.xlsx")
+        alz_data <- read_excel("dataharmAlz.xlsx")
         
         # Create a reactive data frame that filters the data based on the selected studies
         filtered_by_study <- reactive({
@@ -108,14 +110,14 @@ server <- function(input, output, session) {
                           rownames = FALSE
                 )
         })
-        #TODO BUG here, listener not listening when state is baseline (all checkboxes unchecked) Bug is in js code
+        
         observeEvent(input$measure_checkbox, {
-                print("Observer for input$measure_checkbox triggered!")
-                print("Checkbox value:")
+                # print("Observer for input$measure_checkbox triggered!")
+                # print("Checkbox value:")
                 measure_checkbox_vector <- unlist(strsplit(input$measure_checkbox, ","))
                 # Get the length of the vector
                 measure_checkbox_length <- length(measure_checkbox_vector)
-                print(paste("Number of checkboxes checked:", measure_checkbox_length))
+                # print(paste("Number of checkboxes checked:", measure_checkbox_length))
                 # print(length(input$measure_checkbox))
                 # print("Checkbox is null?:",is.null(input$measure_checkbox))
                 
@@ -136,8 +138,8 @@ server <- function(input, output, session) {
                 # Get the indices of the rows where the Prefix is in measure_checkbox_values
                 selected_rows_indices <- which(prefix_vector %in% measure_checkbox_values)
                 
-                print("selected indices:")
-                print(selected_rows_indices)
+                # print("selected indices:")
+                # print(selected_rows_indices)
                 
                 # If there are any selected rows, subset the rows using the indices
                 # Otherwise, create an empty data frame
@@ -189,6 +191,39 @@ server <- function(input, output, session) {
                 rownames = FALSE
         )
         
+        # Render the Lyme data table
+        output$lyme_data_table <- DT::renderDataTable(
+                lyme_data, # Render the Lyme study data
+                options = list(
+                        # Set the initial number of rows to 10
+                        pageLength = 10,
+                        # Increase the height of the scrollable area
+                        scrollY = "400px",
+                        # Adjust the table height to fit the number of rows
+                        scrollCollapse = TRUE,
+                        paging = FALSE
+                ),
+                # Use client-side processing
+                server = FALSE,
+                rownames = FALSE
+        )
+        
+        # Render the alz data table
+        output$alz_data_table <- DT::renderDataTable(
+                alz_data, # Render the Lyme study data
+                options = list(
+                        # Set the initial number of rows to 10
+                        pageLength = 10,
+                        # Increase the height of the scrollable area
+                        scrollY = "400px",
+                        # Adjust the table height to fit the number of rows
+                        scrollCollapse = TRUE,
+                        paging = FALSE
+                ),
+                # Use client-side processing
+                server = FALSE,
+                rownames = FALSE
+        )
         
         # Observe the checkout button , This will eventually be the function to send the data to the database
         observeEvent(input$checkout, {
@@ -211,16 +246,16 @@ server <- function(input, output, session) {
                         ))
                 }
         })
-        
+        # logic for clearing items in cart
         observeEvent(input$clear_cart, {
                 # Clear the selected rows in the cart by setting it to an empty data frame
                 selected_rows(data.frame())
                 
                 # Uncheck all the checkboxes in the main data table containing the study data
                 runjs("
-        // Select all checkboxes with the class 'measure-checkbox' and uncheck them
-        $('input.measure-checkbox[type=\"checkbox\"]').prop('checked', false);
-    ")
+                        // Select all checkboxes with the class 'measure-checkbox' and uncheck them
+                        $('input.measure-checkbox[type=\"checkbox\"]').prop('checked', false);
+                        ")
                 
                 # Show modal dialog with the message "Your cart has been cleared."
                 showModal(modalDialog(
@@ -229,6 +264,15 @@ server <- function(input, output, session) {
                         easyClose = TRUE,
                         footer = NULL
                 ))
+        })
+        
+        # Add an observer to handle the click event on the "Lyme" column name
+        observeEvent(input$studies, {
+                # Check if "Lyme" is selected in the studies checkbox group
+                if ("Lyme" %in% input$studies) {
+                        # Navigate to a different tab when "Lyme" is selected
+                        updateTabItems(session, "dashboard_tab", "lyme_tab")
+                }
         })
         
         

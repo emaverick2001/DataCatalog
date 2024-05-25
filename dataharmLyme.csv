@@ -1,0 +1,18 @@
+Prefix,Number of Items,Subscales,Screening,FinalPrep,Session1,Session2,1WeekPostS1,1WeekPostS2,2WeekPostS2,1MonthPostS2,3MonthPostS2,6MonthPostS2
+BDI,21,total,X,,,,X,X,X,X,X,X
+BFI,44,"extrav.mean, agree.mean, consc.mean, neurotic.mean, open.mean, extrav.sum, agree.sum, consc.sum, neurotic.sum, open.sum",X,,,,,,,X,,X
+CEQ,26,"fear, grief, physDistress, insanity, isolation, death, paranoia, total, fear.pctmax, grief.pctmax, physDistress.pctmax, insanity.pctmax, isolation.pctmax, death.pctmax, paranoia.pctmax, pctmax",,,X,X,,,,,,
+FSS,10,total,X,,,,X,X,X,X,X,X
+GSQ,32,"viralLike, painFatigue, neurological, neuroPsychiatric, total",X,,,,X,,X,X,X,X
+IDQ,9,,X,,,,,,X,,,X
+LEC,17,,X,,,,,,,,,
+Memory,1,,,,X,X,,,,,,
+MEQ,30,"total, mystical, positive, transendence, ineffibility, total.pctmax, mystical.pctmax, positive.pctmax, transendence.pctmax, ineffibility.pctmax, complete",,,X,X,,,,,,
+MPQ,17,"sensory, affective, vas, ppi, chosen",X,,,,X,X,X,X,X,X
+MQOL,17,"physical, psychological, outlookLife, meaningfulExistence, total",X,,,,X,,X,,X,
+PCS,13,"rumination, magnification, helplessness, total",X,,,,,,X,,,X
+PSQI,9,"sleepQuality, sleepLatency, sleepDuration, sleepEfficiency, sleepDisturbance, sleepMedication, daytimeDysfunction, global",X,,,,X,X,X,X,X,X
+PsychInsight,23,"amp, gap, total",,,X,X,,,,,,
+SF36,36,"physicalFunctioning, physicalLimitations, bodilyPain, socialFunctioning, mentalHealth, emotionalLimitations, vitality, generalHealthPerceptions",X,,,,X,,X,X,X,X
+VEQ,16,,X,,,,,,,X,,X
+WAI,12,"goal, task, bond",,X,,,X,X,,,,
